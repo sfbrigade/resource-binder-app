@@ -14,7 +14,9 @@ dependencies {
     implementation(project(":sharedUI"))
 
     implementation(libs.androidx.activity.compose)
+    implementation("com.google.mlkit:genai-speech-recognition:1.0.0-alpha1")
 
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
 }
