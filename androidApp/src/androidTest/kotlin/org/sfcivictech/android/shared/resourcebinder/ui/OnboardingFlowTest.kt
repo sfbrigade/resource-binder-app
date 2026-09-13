@@ -75,6 +75,8 @@ class OnboardingFlowTest {
         composeTestRule.setContent { OnboardingFlow(onFinished = { finished = true }) }
 
         try {
+            pressBack()
+        } catch (expected: NoActivityResumedException) {
             // Nothing left to resume is proof back at page 0 actually exits, rather
             // than dismissing onboarding and landing on some other screen.
         }

@@ -50,6 +50,7 @@ fun OnboardingFlow(onFinished: () -> Unit = {}) {
     var currentPage by rememberSaveable { mutableStateOf(0) }
 
     // Disabled at page 0: back should exit the app like any other root screen
+    BackHandler(enabled = currentPage > 0) {
         currentPage -= 1
     }
 
