@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">ResourceBinder</string>
+
+    <string name="onboarding_action_skip">Skip</string>
+    <string name="onboarding_action_next">Next</string>
+    <string name="onboarding_action_back">Back</string>
+    <string name="onboarding_action_get_started">Get started</string>
+
+    <string name="onboarding_welcome_title">Help people find\nthe right support faster</string>
+    <string name="onboarding_welcome_description">Create care plans in minutes by capturing the situation and matching the right resources.</string>
+
+    <string name="onboarding_describe_title">Speak or type what\nyou know</string>
+    <string name="onboarding_describe_description">Describe the client\'s situation with your voice or enter information manually. You can edit everything before sharing.</string>
+
+    <string name="onboarding_ai_title">AI helps. You decide</string>
+    <string name="onboarding_ai_description">We\'ll identify needs, detect important details, and recommend resources. You stay in control of every decision.</string>
+
+    <string name="onboarding_field_title">Built for the field</string>
+    <string name="onboarding_field_description">Work online or offline. Your plans stay on your device and sync automatically when you\'re connected.</string>
 </resources>
