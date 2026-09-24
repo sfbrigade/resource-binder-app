@@ -1,0 +1,10 @@
+# Generated at runtime -- keep only the checked-in sample dataset.
+data/hsds_csv_*/
+!data/hsds_csv_sample/
+data/sf_family_shelters_*
+data/sf_shelters_query_*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
