@@ -9,6 +9,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.sfcivictech.android.shared.resourcebinder.FakeAccountService
@@ -36,6 +37,14 @@ class LoginFlowTest {
         composeTestRule.setContent { LoginFlow() }
 
         composeTestRule.onNodeWithText(string(R.string.login_welcome_title)).assertExists()
+    }
+
+    @Test
+    fun emailIsPrefilledWhenReturningFromRequestAccess() {
+        composeTestRule.setContent { LoginFlow(initialEmail = "nikolai@civic-tech.design") }
+
+        composeTestRule.onNodeWithText("nikolai@civic-tech.design").assertExists()
+        composeTestRule.onNodeWithText(string(R.string.login_welcome_action_primary)).assertIsEnabled()
     }
 
     @Test
@@ -109,6 +118,34 @@ class LoginFlowTest {
         composeTestRule.onNodeWithText(string(R.string.login_account_not_found_action_secondary)).performClick()
 
         composeTestRule.onNodeWithText(string(R.string.login_welcome_title)).assertExists()
+    }
+
+    @Test
+    fun requestAccessFromTheWelcomeScreenPassesTheTypedEmail() {
+        var requestedWith: String? = null
+        composeTestRule.setContent { LoginFlow(onRequestAccess = { requestedWith = it }) }
+
+        enterEmail("nikolai@civic-tech.design")
+        composeTestRule.onNodeWithText(string(R.string.login_welcome_request_access)).performClick()
+
+        assertEquals("nikolai@civic-tech.design", requestedWith)
+    }
+
+    @Test
+    fun requestAccessFromAccountNotFoundPassesTheTypedEmail() {
+        val fakeAccountService = FakeAccountService().apply {
+            sendSignInLinkOutput = SendSignInLinkResult.ACCOUNT_NOT_FOUND
+        }
+        var requestedWith: String? = null
+        composeTestRule.setContent {
+            LoginFlow(accountService = fakeAccountService, onRequestAccess = { requestedWith = it })
+        }
+
+        enterEmail("nikolai@civic-tech.design")
+        clickSubmit()
+        composeTestRule.onNodeWithText(string(R.string.login_account_not_found_action_primary)).performClick()
+
+        assertEquals("nikolai@civic-tech.design", requestedWith)
     }
 
     @Test

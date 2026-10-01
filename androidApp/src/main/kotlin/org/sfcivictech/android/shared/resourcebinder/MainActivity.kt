@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sfcivictech.android.shared.resourcebinder.ui.OnboardingFlow
 import org.sfcivictech.android.shared.resourcebinder.ui.login.LoginFlow
+import org.sfcivictech.android.shared.resourcebinder.ui.register.RegisterFlow
 import org.sfcivictech.android.shared.resourcebinder.ui.theme.ResourceBinderTheme
 
 private const val APP_PREFS_NAME = "onboarding_prefs"
@@ -53,6 +54,12 @@ class MainActivity : ComponentActivity() {
                     mutableStateOf(!prefs.getBoolean(KEY_HAS_SIGNED_IN, false))
                 }
 
+                // Non-null while the request access flow is showing; holds the email to
+                // prefill it with (blank when there's nothing to carry over)
+                var registerEmail by rememberSaveable { mutableStateOf<String?>(null) }
+                // Carried back to the login screen when the user leaves request access
+                var loginEmail by rememberSaveable { mutableStateOf("") }
+
                 if (showOnboarding) {
                     OnboardingFlow(
                         onFinished = {
@@ -60,8 +67,25 @@ class MainActivity : ComponentActivity() {
                             showOnboarding = false
                         },
                     )
+                } else if (registerEmail != null) {
+                    RegisterFlow(
+                        initialEmail = registerEmail.orEmpty(),
+                        onBack = { registerEmail = null },
+                        onGoToSignIn = { email ->
+                            loginEmail = email
+                            showLogin = true
+                            registerEmail = null
+                        },
+                        onRegistered = {
+                            prefs.edit().putBoolean(KEY_HAS_SIGNED_IN, true).apply()
+                            showLogin = false
+                            registerEmail = null
+                        },
+                    )
                 } else if (showLogin) {
                     LoginFlow(
+                        initialEmail = loginEmail,
+                        onRequestAccess = { email -> registerEmail = email },
                         onSignedIn = {
                             prefs.edit().putBoolean(KEY_HAS_SIGNED_IN, true).apply()
                             showLogin = false
@@ -81,6 +105,9 @@ class MainActivity : ComponentActivity() {
                             }
                             Button(onClick = { showLogin = true }) {
                                 Text("Preview login")
+                            }
+                            Button(onClick = { registerEmail = "" }) {
+                                Text("Preview register")
                             }
                         }
                     }

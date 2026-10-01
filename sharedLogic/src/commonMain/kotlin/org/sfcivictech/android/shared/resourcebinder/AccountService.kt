@@ -6,6 +6,26 @@ interface AccountService {
     suspend fun sendSignInLink(email: String): SendSignInLinkResult
 
     suspend fun verifySignInLink(token: String): VerifySignInLinkResult
+
+    suspend fun requestAccess(
+        fullName: String,
+        email: String,
+        organization: String,
+    ): RequestAccessResult
+
+    suspend fun verifyInvitation(token: String): VerifyInvitationResult
+}
+
+enum class RequestAccessResult {
+    SUCCESS,
+    ACCOUNT_ALREADY_EXISTS,
+    NETWORK_ERROR,
+}
+
+enum class VerifyInvitationResult {
+    SUCCESS,
+    EXPIRED,
+    NETWORK_ERROR,
 }
 
 enum class SendSignInLinkResult {
@@ -28,6 +48,11 @@ class FakeAccountService : AccountService {
     var verifySignInLinkOutput: VerifySignInLinkResult = VerifySignInLinkResult.SUCCESS
     var verifySignInLinkDelayInMilliseconds: Long = 0L
 
+    var requestAccessOutput: RequestAccessResult = RequestAccessResult.SUCCESS
+    var requestAccessDelayInMilliseconds: Long = 0L
+
+    var verifyInvitationOutput: VerifyInvitationResult = VerifyInvitationResult.SUCCESS
+    var verifyInvitationDelayInMilliseconds: Long = 0L
 
     override suspend fun sendSignInLink(email: String): SendSignInLinkResult {
 
@@ -41,5 +66,23 @@ class FakeAccountService : AccountService {
         delay(verifySignInLinkDelayInMilliseconds)
 
         return verifySignInLinkOutput
+    }
+
+    override suspend fun requestAccess(
+        fullName: String,
+        email: String,
+        organization: String,
+    ): RequestAccessResult {
+
+        delay(requestAccessDelayInMilliseconds)
+
+        return requestAccessOutput
+    }
+
+    override suspend fun verifyInvitation(token: String): VerifyInvitationResult {
+
+        delay(verifyInvitationDelayInMilliseconds)
+
+        return verifyInvitationOutput
     }
 }

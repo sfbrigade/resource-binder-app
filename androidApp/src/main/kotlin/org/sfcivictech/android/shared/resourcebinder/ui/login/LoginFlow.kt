@@ -1,6 +1,5 @@
 package org.sfcivictech.android.shared.resourcebinder.ui.login
 
-import android.text.TextUtils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sfcivictech.android.shared.resourcebinder.AccountService
 import org.sfcivictech.android.shared.resourcebinder.FakeAccountService
+import org.sfcivictech.android.shared.resourcebinder.FormValidator
 import org.sfcivictech.android.shared.resourcebinder.R
 import org.sfcivictech.android.shared.resourcebinder.SendSignInLinkResult
 import org.sfcivictech.android.shared.resourcebinder.VerifySignInLinkResult
@@ -36,7 +36,9 @@ sealed interface LoginUiState {
 
     data object SigningIn : LoginUiState
 
-    data object AccountNotFound : LoginUiState
+    data class AccountNotFound(
+        val email: String = "",
+    ) : LoginUiState
 
     data object LinkExpired : LoginUiState
 
@@ -46,11 +48,14 @@ sealed interface LoginUiState {
 @Composable
 fun LoginFlow(
     accountService: AccountService = FakeAccountService(),
-    onRequestAccess: () -> Unit = {},
+    //filled in when returning from request access so the user doesn't retype it
+    initialEmail: String = "",
+    //receives the email typed so far so the request access form can start with it filled in
+    onRequestAccess: (email: String) -> Unit = {},
     onSignedIn: () -> Unit = {}
     ) {
     //start the UI on the enter email page
-    var uiState by remember { mutableStateOf<LoginUiState>(LoginUiState.EmailEntry()) }
+    var uiState by remember { mutableStateOf<LoginUiState>(LoginUiState.EmailEntry(email = initialEmail)) }
     //remembers the coroutine calling accountService
     val scope = rememberCoroutineScope()
 
@@ -124,7 +129,7 @@ fun LoginFlow(
             bannerError = state.bannerError,
             onEmailChanged = ::onEmailChanged,
             onSubmitClick = ::onSubmitClick,
-            onRequestAccessClick = onRequestAccess,
+            onRequestAccessClick = { onRequestAccess(state.email) },
         )
         is LoginUiState.SendingLink -> LoginSendingLinkScreen()
         is LoginUiState.CheckingEmail -> LoginCheckEmailScreen(
@@ -136,9 +141,9 @@ fun LoginFlow(
             onDebugSimulateAlreadyUsedClick = { onDebugSimulateVerify(VerifySignInLinkResult.ALREADY_USED) },
         )
         LoginUiState.SigningIn -> LoginSigningInScreen()
-        LoginUiState.AccountNotFound -> LoginAccountNotFoundScreen(
+        is LoginUiState.AccountNotFound -> LoginAccountNotFoundScreen(
             onTryAnotherEmailClick = ::onStartOver,
-            onRequestAccessClick = onRequestAccess,
+            onRequestAccessClick = { onRequestAccess(state.email) },
         )
         LoginUiState.LinkExpired -> LoginLinkExpiredScreen(onSendNewLinkClick = ::onStartOver)
         LoginUiState.LinkAlreadyUsed -> LoginLinkAlreadyUsedScreen(onSendNewLinkClick = ::onStartOver)
@@ -146,8 +151,7 @@ fun LoginFlow(
 }
 
 private fun isValidEmail(email: String): Boolean {
-    return !TextUtils.isEmpty(email) &&
-                  android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    return FormValidator.isValidEmail(email)
 }
 
 private suspend fun submitEmail(
@@ -161,7 +165,7 @@ private suspend fun submitEmail(
         SendSignInLinkResult.SUCCESS ->
             LoginUiState.CheckingEmail(email = email, resendCooldownInSeconds = 30)
         SendSignInLinkResult.ACCOUNT_NOT_FOUND ->
-            LoginUiState.AccountNotFound
+            LoginUiState.AccountNotFound(email)
         SendSignInLinkResult.NETWORK_ERROR ->
             LoginUiState.EmailEntry(email = email, bannerError = networkErrorMessage)
     }
