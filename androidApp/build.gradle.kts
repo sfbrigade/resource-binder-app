@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
+    id("com.google.devtools.ksp")
 }
 
 kotlin {
@@ -15,9 +16,15 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation("com.google.mlkit:genai-speech-recognition:1.0.0-alpha1")
+    implementation("com.google.mlkit:genai-summarization:1.0.0-beta1")
+
+    implementation("com.google.mlkit:genai-prompt:1.0.0-beta4")
+    ksp("com.google.mlkit:genai-schema-compiler:1.0.0-alpha1")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation(libs.compose.uiToolingPreview)
+
+
     debugImplementation(libs.compose.uiTooling)
 }
 
