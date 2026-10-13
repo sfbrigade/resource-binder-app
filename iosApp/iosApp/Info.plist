@@ -8,5 +8,7 @@
 	<string>We use the microphone to listen and transcribe your spoken input.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>We need your speech to transcribe care plan notes.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Use Face ID to sign back in to Resource_Binder quickly and securely.</string>
 </dict>
 </plist>
