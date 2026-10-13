@@ -3,8 +3,11 @@ package org.sfcivictech.android.shared.resourcebinder
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +53,25 @@ data class Checklist(
     @Guide(description = "A social worker will be using this tool to search for available resources in a specified area. To aid in their search, this will create a list of isolated important keywords that will be vital to helping the search process.", minItems = 1, maxItems = 5)
     val checklist: List<Check>
 )
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import org.sfcivictech.android.shared.resourcebinder.ui.OnboardingFlow
+import org.sfcivictech.android.shared.resourcebinder.ui.theme.ResourceBinderTheme
+
+private const val ONBOARDING_PREFS_NAME = "onboarding_prefs"
+private const val KEY_HAS_SEEN_ONBOARDING = "has_seen_onboarding"
 
 @Generable("Keywords isolated from social worker searches, needs to be helpful to a social worker when finding resources to help.")
 data class Check(
@@ -98,7 +120,10 @@ class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+        )
         super.onCreate(savedInstanceState)
 
         speechRecognizer = SpeechRecognition.getClient(options)
@@ -132,6 +157,41 @@ class MainActivity : ComponentActivity() {
             else -> {
 
                 requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+            }
+        // Deliberately Android-only SharedPreferences, not sharedLogic/SQLDelight:
+        // onboarding's UI is itself Android-only for now, so this stays consistent
+        // with that rather than sharing state a second platform doesn't use yet.
+        val prefs = getSharedPreferences(ONBOARDING_PREFS_NAME, Context.MODE_PRIVATE)
+
+        setContent {
+            ResourceBinderTheme {
+                var showOnboarding by rememberSaveable {
+                    mutableStateOf(!prefs.getBoolean(KEY_HAS_SEEN_ONBOARDING, false))
+                }
+
+                if (showOnboarding) {
+                    OnboardingFlow(
+                        onFinished = {
+                            prefs.edit().putBoolean(KEY_HAS_SEEN_ONBOARDING, true).apply()
+                            showOnboarding = false
+                        },
+                    )
+                } else if (BuildConfig.DEBUG) {
+                    Box {
+                        App()
+                        Button(
+                            onClick = { showOnboarding = true },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .safeContentPadding()
+                                .padding(8.dp),
+                        ) {
+                            Text("Preview onboarding")
+                        }
+                    }
+                } else {
+                    App()
+                }
             }
         }
     }
@@ -313,3 +373,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Preview
+@Composable
+fun AppAndroidPreview() {
+    ResourceBinderTheme {
+        OnboardingFlow()
+    }
+}

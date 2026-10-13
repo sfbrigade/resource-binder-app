@@ -17,6 +17,10 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation("com.google.mlkit:genai-speech-recognition:1.0.0-alpha1")
     implementation("com.google.mlkit:genai-summarization:1.0.0-beta1")
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui)
 
     implementation("com.google.mlkit:genai-prompt:1.0.0-beta4")
     ksp("com.google.mlkit:genai-schema-compiler:1.0.0-alpha1")
@@ -26,6 +30,12 @@ dependencies {
 
 
     debugImplementation(libs.compose.uiTooling)
+
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.testExt.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.test.manifest)
 }
 
 android {
@@ -38,6 +48,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -59,5 +70,6 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
