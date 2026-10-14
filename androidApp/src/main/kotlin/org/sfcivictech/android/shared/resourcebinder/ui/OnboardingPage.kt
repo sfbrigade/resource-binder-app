@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -32,8 +31,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.sfcivictech.android.shared.resourcebinder.R
+import org.sfcivictech.android.shared.resourcebinder.ui.common.BackButton
 
 @Composable
 fun OnboardingPage(
@@ -129,29 +128,6 @@ fun OnboardingPage(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-    }
-}
-
-@Composable
-private fun BackButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .minimumInteractiveComponentSize()
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable(
-                onClickLabel = stringResource(R.string.onboarding_action_back),
-                role = Role.Button,
-                onClick = onClick,
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = "‹",
-            fontSize = 22.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
     }
 }
 
