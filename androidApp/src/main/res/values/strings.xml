@@ -100,4 +100,17 @@
 
     <string name="register_something_wrong_title">Something went wrong</string>
     <string name="register_something_wrong_description">We\'re having trouble connecting. Please try again in a moment.</string>
+
+    <string name="home_greeting_morning">Good morning!</string>
+    <string name="home_greeting_afternoon">Good afternoon!</string>
+    <string name="home_greeting_evening">Good evening!</string>
+    <string name="home_title">Start a new care plan to help someone today.</string>
+    <string name="home_action_start">Start new care plan</string>
+    <string name="home_action_menu">Menu</string>
+    <string name="home_recent_title">Recent care plans</string>
+    <string name="home_recent_empty">You\'re ready to create your first care plan. Tap \"Start new care plan\" to begin.</string>
+    <string name="home_action_all_care_plans">All care plans</string>
+    <string name="home_status_in_progress">In progress</string>
+    <string name="home_status_sync_pending">Sync pending</string>
+    <string name="home_status_shared">Shared</string>
 </resources>
