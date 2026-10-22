@@ -26,7 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import java.util.Calendar
+import org.sfcivictech.android.shared.resourcebinder.careplan.CarePlanCatalog
 import org.sfcivictech.android.shared.resourcebinder.ui.OnboardingFlow
+import org.sfcivictech.android.shared.resourcebinder.ui.careplan.ManualFlowRoute
+import org.sfcivictech.android.shared.resourcebinder.ui.careplan.StartCarePlanScreen
 import org.sfcivictech.android.shared.resourcebinder.ui.home.CarePlanStatus
 import org.sfcivictech.android.shared.resourcebinder.ui.home.CarePlanSummary
 import org.sfcivictech.android.shared.resourcebinder.ui.home.HomeScreen
@@ -38,6 +41,9 @@ import org.sfcivictech.android.shared.resourcebinder.ui.theme.ResourceBinderThem
 private const val APP_PREFS_NAME = "onboarding_prefs"
 private const val KEY_HAS_SEEN_ONBOARDING = "has_seen_onboarding"
 private const val KEY_HAS_SIGNED_IN = "has_signed_in"
+
+// Where the new care plan flow is; NONE means it isn't showing and Home is
+private enum class CarePlanStep { NONE, START, MANUAL }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +73,8 @@ class MainActivity : ComponentActivity() {
                 var registerEmail by rememberSaveable { mutableStateOf<String?>(null) }
                 // Carried back to the login screen when the user leaves request access
                 var loginEmail by rememberSaveable { mutableStateOf("") }
+                var carePlanStep by rememberSaveable { mutableStateOf(CarePlanStep.NONE) }
+                val startCarePlan = { carePlanStep = CarePlanStep.START }
 
                 if (showOnboarding) {
                     OnboardingFlow(
@@ -99,10 +107,25 @@ class MainActivity : ComponentActivity() {
                             showLogin = false
                         },
                     )
+                } else if (carePlanStep == CarePlanStep.START) {
+                    StartCarePlanScreen(
+                        onClose = { carePlanStep = CarePlanStep.NONE },
+                        onEnterManually = { carePlanStep = CarePlanStep.MANUAL },
+                        // Voice recording has no destination yet
+                        onStartVoice = {},
+                    )
+                } else if (carePlanStep == CarePlanStep.MANUAL) {
+                    ManualFlowRoute(
+                        catalog = CarePlanCatalog.default,
+                        onBack = { carePlanStep = CarePlanStep.START },
+                        onExit = { carePlanStep = CarePlanStep.NONE },
+                        // The results screen doesn't exist yet
+                        onFindResources = {},
+                    )
                 } else if (BuildConfig.DEBUG) {
                     // Laid out below Home rather than over it so they can't cover content
                     Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                        Box(modifier = Modifier.weight(1f)) { HomeDestination() }
+                        Box(modifier = Modifier.weight(1f)) { HomeDestination(startCarePlan) }
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -121,7 +144,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 } else {
-                    HomeDestination()
+                    HomeDestination(startCarePlan)
                 }
             }
         }
@@ -129,8 +152,8 @@ class MainActivity : ComponentActivity() {
 }
 
 // Placeholder data shown only in debug builds, until profile and care plan data
-// exist. Release builds show Home with no name and no care plans. The menu, care
-// plan and start actions have no destinations yet.
+// exist. Release builds show Home with no name and no care plans. The menu and care
+// plan actions have no destinations yet.
 private val debugCarePlans = listOf(
     CarePlanSummary("#0003", listOf("Shelter", "Food"), "12 min ago", CarePlanStatus.IN_PROGRESS),
     CarePlanSummary("#0002", listOf("Shelter", "Food"), "Yesterday", CarePlanStatus.SHARED),
@@ -138,7 +161,7 @@ private val debugCarePlans = listOf(
 )
 
 @Composable
-private fun HomeDestination() {
+private fun HomeDestination(onStartCarePlanClick: () -> Unit) {
     // Calendar rather than java.time, which needs API 26 and minSdk is 24
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     HomeScreen(
@@ -146,7 +169,7 @@ private fun HomeDestination() {
         userName = if (BuildConfig.DEBUG) "Marcus Guevara" else "",
         teamName = if (BuildConfig.DEBUG) "RAMS Outreach Team" else "",
         recentCarePlans = if (BuildConfig.DEBUG) debugCarePlans else emptyList(),
-        onStartCarePlanClick = {},
+        onStartCarePlanClick = onStartCarePlanClick,
         onMenuClick = {},
         onCarePlanClick = {},
         onAllCarePlansClick = {},
