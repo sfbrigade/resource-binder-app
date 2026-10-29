@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		45CF23AB3092EF6D0084C885 /* TranscriptionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 45CF23AA3092EF6D0084C885 /* TranscriptionKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		541A651EEE551B486A1BA28E /* ResourceBinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResourceBinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -41,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45CF23AB3092EF6D0084C885 /* TranscriptionKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +90,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
+				45CF23AA3092EF6D0084C885 /* TranscriptionKit */,
 			);
 			productName = iosApp;
 			productReference = 541A651EEE551B486A1BA28E /* ResourceBinder.app */;
@@ -114,6 +120,9 @@
 			);
 			mainGroup = 6E3F710C725B4DA724219BC6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				45CF23A93092EF6D0084C885 /* XCRemoteSwiftPackageReference "peak-ios-transcriptionkit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FC888CC87A438A801E98A24E /* Products */;
 			projectDirPath = "";
@@ -368,6 +377,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		45CF23A93092EF6D0084C885 /* XCRemoteSwiftPackageReference "peak-ios-transcriptionkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/peakresponse/peak-ios-transcriptionkit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		45CF23AA3092EF6D0084C885 /* TranscriptionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45CF23A93092EF6D0084C885 /* XCRemoteSwiftPackageReference "peak-ios-transcriptionkit" */;
+			productName = TranscriptionKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C20F8EC627CA1671EAC6DE1C /* Project object */;
 }
