@@ -30,7 +30,7 @@ class SpeechTranscriberManager: ObservableObject, @MainActor TranscriberDelegate
     }
 
     func stop() {
-        transcriber.stopPlayback()
+        transcriber.stopRecording()
     }
 
     // MARK: - TranscriberDelegate
