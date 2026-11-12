@@ -17,4 +17,40 @@
 
     <string name="onboarding_field_title">Built for the field</string>
     <string name="onboarding_field_description">Work online or offline. Your plans stay on your device and sync automatically when you\'re connected.</string>
+
+    <string name="login_welcome_title">Welcome back</string>
+    <string name="login_welcome_description">Sign in using your work email. We\'ll send you a secure link to continue.</string>
+
+    <string name="login_welcome_email_label">Email Address*</string>
+    <string name="login_welcome_email_placeholder">Your email</string>
+    <string name="login_welcome_request_access">Need access? Request</string>
+    <string name="login_welcome_action_primary">Email me a sign-in link</string>
+
+    <string name="login_error_network">No internet connection. Try again.</string>
+    <string name="login_error_invalid_email">Enter a valid email.</string>
+
+    <string name="login_sending_title">Sending secure link…</string>
+    <string name="login_sending_description">This usually takes a few seconds.</string>
+
+    <string name="login_check_email_title">Check your email</string>
+    <string name="login_check_email_description">We\'ve sent a secure sign-in link to %1$s. Open it on this device to continue.</string>
+    <string name="login_check_email_resend_prompt">Didn\'t receive the email?</string>
+    <string name="login_check_email_resend_cooldown">Resend in %1$ds</string>
+    <string name="login_check_email_resend_action">Resend email</string>
+
+    <string name="login_signing_in_title">Signing you in…</string>
+    <string name="login_signing_in_description">Verifying your secure link.</string>
+
+    <string name="login_account_not_found_title">We couldn\'t find your account</string>
+    <string name="login_account_not_found_description">Make sure you\'re using your work email or request access.</string>
+    <string name="login_account_not_found_action_secondary">Try another email</string>
+    <string name="login_account_not_found_action_primary">Request access</string>
+
+    <string name="login_link_expired_title">This sign-in link expired</string>
+    <string name="login_link_expired_description">Sign-in links are only valid for a limited time to keep your account secure.</string>
+    <string name="login_link_expired_action">Send a new link</string>
+
+    <string name="login_link_already_used_title">This link has already been used</string>
+    <string name="login_link_already_used_description">Please request a new link to securely sign in to your workspace.</string>
+    <string name="login_link_already_used_action">Send new sign-in link</string>
 </resources>

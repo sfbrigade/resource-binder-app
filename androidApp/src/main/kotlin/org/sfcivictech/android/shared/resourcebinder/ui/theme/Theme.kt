@@ -10,6 +10,10 @@ import androidx.compose.ui.text.font.FontWeight
 private val LightColors = lightColorScheme(
     primary = Color(0xFF1A1B1F),
     onPrimary = Color.White,
+    // Used for text links (e.g. "Need access? Request"), distinct from primary's
+    // near-black used on buttons.
+    secondary = Color(0xFF2563EB),
+    onSecondary = Color.White,
     background = Color(0xFFF6F7F9),
     onBackground = Color(0xFF1A1B1F),
     surfaceVariant = Color(0xFFE7E8EC),
