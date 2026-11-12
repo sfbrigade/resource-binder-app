@@ -4,11 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.sfcivictech.android.shared.resourcebinder.R
+import org.sfcivictech.android.shared.resourcebinder.ui.common.LoadingScreen
 import org.sfcivictech.android.shared.resourcebinder.ui.theme.ResourceBinderTheme
 
 @Composable
 fun LoginSigningInScreen() {
-    LoginLoadingScreen(
+    LoadingScreen(
         title = stringResource(R.string.login_signing_in_title),
         description = stringResource(R.string.login_signing_in_description),
     )

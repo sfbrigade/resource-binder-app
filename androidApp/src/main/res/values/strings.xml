@@ -53,4 +53,51 @@
     <string name="login_link_already_used_title">This link has already been used</string>
     <string name="login_link_already_used_description">Please request a new link to securely sign in to your workspace.</string>
     <string name="login_link_already_used_action">Send new sign-in link</string>
+
+    <string name="register_title">Request access</string>
+    <string name="register_description">Enter your work email. If your organization uses Resource Binder, we\'ll send you an invitation or connect you with an administrator.</string>
+    <string name="register_name_label">Full name*</string>
+    <string name="register_name_placeholder">Enter your name</string>
+    <string name="register_email_label">Email address*</string>
+    <string name="register_email_placeholder">Your email</string>
+    <string name="register_organization_label">Organization*</string>
+    <string name="register_organization_placeholder">Enter name of your organization</string>
+    <!-- Spoken by screen readers instead of the visual label, so "*" isn't read as "star" -->
+    <string name="register_name_field_description">Full name, required</string>
+    <string name="register_email_field_description">Email address, required</string>
+    <string name="register_organization_field_description">Organization, required</string>
+    <string name="register_action_submit">Request access</string>
+
+    <string name="register_error_name">Enter correct name</string>
+    <string name="register_error_email">Enter a valid email</string>
+    <string name="register_error_organization">Enter a valid organization name</string>
+    <string name="register_error_network">We\'re having trouble connecting. Please try again in a moment.</string>
+
+    <string name="register_submitting_title">Submitting request…</string>
+    <string name="register_submitting_description">This will only take a moment.</string>
+
+    <string name="register_check_email_title">You\'re almost there</string>
+    <string name="register_check_email_description">We\'ve sent an invitation to %1$s. Open the email to activate your account.</string>
+    <string name="register_check_email_resend_prompt">Didn\'t receive the email?</string>
+    <string name="register_check_email_resend_cooldown">Resend in %1$ds</string>
+    <string name="register_check_email_resend_action">Resend email</string>
+
+    <string name="register_creating_title">Creating account…</string>
+    <string name="register_creating_description">This will only take a moment.</string>
+
+    <string name="register_welcome_title">Welcome!</string>
+    <string name="register_welcome_description">Your account is ready. You can now start creating care plans.</string>
+    <string name="register_welcome_action">Get started</string>
+
+    <string name="register_exists_title">Account already exists</string>
+    <string name="register_exists_description">An account with this email already exists. Try signing in instead.</string>
+    <string name="register_exists_action_secondary">Use a different email</string>
+    <string name="register_exists_action_primary">Go to sign in</string>
+
+    <string name="register_invitation_expired_title">Invitation expired</string>
+    <string name="register_invitation_expired_description">This invitation has expired. Request a new one and we\'ll send it to your email.</string>
+    <string name="register_invitation_expired_action">Send new invitation</string>
+
+    <string name="register_something_wrong_title">Something went wrong</string>
+    <string name="register_something_wrong_description">We\'re having trouble connecting. Please try again in a moment.</string>
 </resources>
