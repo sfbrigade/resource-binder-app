@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.sp
 import org.sfcivictech.android.shared.resourcebinder.R
 
 @Composable
-fun BackButton(onClick: () -> Unit) {
+fun BackButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .minimumInteractiveComponentSize()
             .size(40.dp)
             .clip(CircleShape)

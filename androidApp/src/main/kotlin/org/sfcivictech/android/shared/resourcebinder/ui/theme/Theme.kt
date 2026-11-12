@@ -21,6 +21,9 @@ private val LightColors = lightColorScheme(
     outlineVariant = Color(0xFFD9DADD),
 )
 
+// Status color for care plans waiting to sync; not part of the Material scheme.
+val SyncPendingColor = Color(0xFFF5B301)
+
 private val baseTypography = Typography()
 private val AppTypography = baseTypography.copy(
     headlineMedium = baseTypography.headlineMedium.copy(fontWeight = FontWeight.Bold),
