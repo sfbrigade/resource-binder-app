@@ -7,10 +7,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import org.sfcivictech.android.shared.resourcebinder.ui.OnboardingFlow
 import org.sfcivictech.android.shared.resourcebinder.ui.navigation.AppNavHost
+import org.sfcivictech.android.shared.resourcebinder.ui.login.LoginFlow
+import org.sfcivictech.android.shared.resourcebinder.ui.register.RegisterFlow
 import org.sfcivictech.android.shared.resourcebinder.ui.theme.ResourceBinderTheme
 
 private const val APP_PREFS_NAME = "onboarding_prefs"
